@@ -28,7 +28,7 @@ const CreateToy = () => {
     // onSubmit handler
     const onSubmit =
         toyObject => {
-            axios.post(`http://localhost:8081/item`,
+            axios.post(`/item`,
         toyObject)
           //  ('http://localhost:8081/item/',toyObject,null)
                 .then(res => {

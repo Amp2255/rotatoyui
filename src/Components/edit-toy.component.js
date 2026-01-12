@@ -23,7 +23,7 @@ const EditToy = () => {
   useEffect(() => {
     console.log('*****Axios response:');
     axios
-      .get(`http://localhost:8081/item/id/`,
+      .get(`/item/id/`,
         {
             params:{
                 id: id
@@ -54,7 +54,7 @@ const EditToy = () => {
   // Form submission handler
   const onSubmit = (toyObject) => {
     axios
-      .patch(`http://localhost:8081/item`,
+      .patch(`/item`,
         toyObject,                 // data goes second
         { params: { id: id } })
       .then((res) => {
@@ -70,7 +70,7 @@ const EditToy = () => {
   const rotateItem=(toyObject)=>{
   if (window.confirm("Are you sure you want to rotate this item?")) {
             axios
-      .patch(`http://localhost:8081/item/rotate`,
+      .patch(`/item/rotate`,
         formValues,                 // data goes second
         { params: { id: id } })
       .then((res) => {

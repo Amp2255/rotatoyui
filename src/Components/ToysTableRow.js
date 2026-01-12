@@ -19,7 +19,7 @@ const ToysTableRow =
  const rotateItem=()=>{
   if (window.confirm("Are you sure you want to rotate this item?")) {
             axios
-      .patch(`http://localhost:8081/item/rotate`,
+      .patch(`/item/rotate`,
         props.obj,                 // data goes second
         { params: { id: id } })
       .then((res) => {
@@ -39,7 +39,7 @@ const ToysTableRow =
   if (window.confirm("Are you sure you want to delete this item?")) {
             axios
                 .delete(
-"http://localhost:8081/item/" + id)
+"/item/" + id)
                 .then((res) => {
                     if (res.status === 200) {
                         alert("Student successfully deleted");

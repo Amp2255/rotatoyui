@@ -20,7 +20,7 @@ const ToyForm = (props) => {
             lastRotated: Yup.string().required("Required"),
             image: Yup.string().required("Required"),
         });
-    console.log("**********",props);
+    
     return (
         <div className="form-wrapper">
             <Formik {...props}

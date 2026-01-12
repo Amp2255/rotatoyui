@@ -23,7 +23,9 @@ import EditToy from
     "./Components/edit-toy.component";
 import ToysList from
     "./Components/toys-list.component";
+import RotateActions from "./Components/rotate-actions.component";
 
+import AppMenu from "./Components/app-menu.component";
 // App Component
 const App = () => {
     return (
@@ -36,13 +38,21 @@ const App = () => {
                 <header className="App-header">
                     <Navbar bg="dark" variant="dark">
                         <Container>
+                        <div className="d-flex align-items-center">
+                            <Navbar.Brand className="p-1 me-3">
+                                <Link to={"/appmenu"}
+                                    className="nav-link">
+                                    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g clip-path="url(#clip0_429_11066)"> <path d="M3 6.00092H21M3 12.0009H21M3 18.0009H21" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> </g> <defs> <clipPath id="clip0_429_11066"> <rect width="24" height="24" fill="white" transform="translate(0 0.000915527)"></rect> </clipPath> </defs> </g></svg>
+                                </Link>
+                                
+                            </Navbar.Brand>
                             <Navbar.Brand>
-                                <Link to={"/toy-list"}
+                                <Link to={"/rotate-actions"}
                                     className="nav-link">
                                     RotaToy
                                 </Link>
                             </Navbar.Brand>
-
+                        </div>
                             <Nav className="justify-content-end">
                                 <Nav>
                                     <Link to={"/create-toy"}
@@ -82,6 +92,8 @@ const App = () => {
                                     <Route path="/create-toy" element={<CreateToy />} />
                                     <Route path="/edit-toy/:id" element={<EditToy />} />
                                     <Route path="/toy-list" element={<ToysList />} />
+                                    <Route path="/rotate-actions" element={<RotateActions/>}/>
+                                    <Route path="/appmenu" element={<AppMenu/>}/>
                                 </Routes>
                             </div>
                         </Col>
