@@ -25,8 +25,7 @@ const ToysTableRow =
       .then((res) => {
         if (res.status === 200) {
           alert("Toy details successfully updated");
-          window.location.reload();
-          //navigate("/toy-list");  // ✅ Redirect using navigate
+          props.onUpdate();
         } else {
           return Promise.reject();
         }
@@ -35,15 +34,13 @@ const ToysTableRow =
         };
  }
  const deleteItem = () => {
-
   if (window.confirm("Are you sure you want to delete this item?")) {
             axios
-                .delete(
-"/item/" + id)
+                .delete("/item", { params: { id: id } })
                 .then((res) => {
                     if (res.status === 200) {
-                        alert("Student successfully deleted");
-                        window.location.reload();
+                        alert("Toy successfully deleted");
+                        props.onUpdate();
                     } else Promise.reject();
                 })
                 .catch(
@@ -58,7 +55,9 @@ const ToysTableRow =
                 <td>{notes}</td>
                 <td>{status}</td>
                 <td>{lastRotated}</td>
-                <td>{image}</td>
+                <td>
+                    {image && <img src={image} alt={name} style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: 4 }} />}
+                </td>
                 <td className="actionsColumn">
   <Button
     variant="primary"
@@ -85,7 +84,7 @@ const ToysTableRow =
     
   >
     <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
-     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rotateToyIcon">
+     strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="rotateToyIcon">
   <polyline points="1 4 1 10 7 10"/>
   <title>Rotate Toy</title>
   <path d="M3.51 15a9 9 0 1 0 2.13-9"/>

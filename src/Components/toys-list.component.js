@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, Button,Form, Row, Col } from "react-bootstrap";
 import ToysTableRow from "./ToysTableRow";
-import { ErrorMessage } from "formik";
 
 const ToysList = () => {
   const [toys, setToys] = useState([]);
@@ -11,15 +10,12 @@ const ToysList = () => {
   const [sortBy, setSortBy] = useState("name");
   const [sortOrder, setSortOrder] = useState("asc"); // "asc" or "desc"
   const pageSize = 5;
-  // const [searchName, setSearchName] = useState("");
-  // const [searchStatus, setSearchStatus] = useState("");
-  const [searchField, setSearchField] = useState("");
+const [searchField, setSearchField] = useState("");
   useEffect(() => {
     fetchToys(currentPage, sortBy, sortOrder,searchField);
   }, [currentPage, sortBy, sortOrder,searchField]);
 
   const fetchToys = (page, sortBy, sortOrder,searchField) => {
-    console.log("********** list toys api");
     axios
       .get("/item", {
         params: {
@@ -56,10 +52,16 @@ const ToysList = () => {
   };
 
   const DataTable = () => {
-    return toys.map((res, i) => <ToysTableRow obj={res} key={i} />);
+    return toys.map((res, i) => (
+      <ToysTableRow
+        obj={res}
+        key={res.id}
+        onUpdate={() => fetchToys(currentPage, sortBy, sortOrder, searchField)}
+      />
+    ));
   };
 
-  const handleSearch=(e)=>{
+  const handleSearch=()=>{
     setCurrentPage(0);
     fetchToys(0, sortBy, sortOrder, searchField);
   }
@@ -68,12 +70,11 @@ const ToysList = () => {
     
   if (window.confirm("Are you sure you want to rotate all toys?")) {
             axios
-      .patch('/item/rotateAll')//`http://localhost:8081/item/rotateAll`)
+      .patch('/item/rotateAll')
       .then((res) => {
         if (res.status === 200) {
           alert("Toys rotation updated");
-          window.location.reload();
-          //navigate("/toy-list");  // ✅ Redirect using navigate
+          fetchToys(currentPage, sortBy, sortOrder, searchField);
         } else {
           return Promise.reject();
         }
@@ -90,8 +91,7 @@ const ToysList = () => {
       .then((res) => {
         if (res.status === 200) {
           alert("Toys status updated");
-          window.location.reload();
-          //navigate("/toy-list");  // ✅ Redirect using navigate
+          fetchToys(currentPage, sortBy, sortOrder, searchField);
         } else {
           return Promise.reject();
         }
@@ -114,23 +114,7 @@ const ToysList = () => {
               onChange={(e) => setSearchField(e.target.value)}
             />
           </Col>
-          {/* <Col md={4}>
-            <Form.Control
-              type="text"
-              placeholder="Search by name"
-              value={searchName}
-              onChange={(e) => setSearchName(e.target.value)}
-            />
-          </Col> */}
-          {/* <Col md={4}>
-            <Form.Control
-              type="text"
-              placeholder="Search by status"
-              value={searchStatus}
-              onChange={(e) => setSearchStatus(e.target.value)}
-            />
-          </Col> */}
-          <Col md={4} >
+<Col md={4} >
             <Button variant="primary" onClick={handleSearch}>
               Search
             </Button>
@@ -178,7 +162,7 @@ const ToysList = () => {
         <span style={{ padding: "0 10px", alignSelf: "center" }}>
           Page {currentPage} of {totalPages}
         </span>
-        <Button variant="secondary" onClick={handleNext} disabled={currentPage === totalPages}>
+        <Button variant="secondary" onClick={handleNext} disabled={currentPage >= totalPages - 1}>
           Next
         </Button>
       </div>

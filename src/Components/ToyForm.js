@@ -3,12 +3,46 @@ import React from "react";
 import * as Yup from "yup";
 import {
     Formik, Form,
-    Field, ErrorMessage
+    Field, ErrorMessage, useFormikContext
 } from "formik";
 import {
     FormGroup,
     Button
 } from "react-bootstrap";
+
+const ImageUploadField = () => {
+    const { setFieldValue, values, errors, touched } = useFormikContext();
+
+    const handleChange = (e) => {
+        const file = e.currentTarget.files[0];
+        if (!file) return;
+        setFieldValue('image', file);
+    };
+
+    return (
+        <FormGroup>
+            <label htmlFor="image">Image</label>
+            <input
+                id="image"
+                name="image"
+                type="file"
+                accept="image/jpeg"
+                className="form-control"
+                onChange={handleChange}
+            />
+            {values.image && (
+                <img
+                    src={values.image instanceof File ? URL.createObjectURL(values.image) : values.image}
+                    alt="preview"
+                    style={{ marginTop: 8, maxHeight: 120 }}
+                />
+            )}
+            {touched.image && errors.image && (
+                <span className="d-block invalid-feedback">{errors.image}</span>
+            )}
+        </FormGroup>
+    );
+};
 
 const ToyForm = (props) => {
     const validationSchema =
@@ -18,7 +52,7 @@ const ToyForm = (props) => {
             notes: Yup.string().required("Required"),
             status: Yup.string().required("Required"),
             lastRotated: Yup.string().required("Required"),
-            image: Yup.string().required("Required"),
+            image: Yup.mixed().required("Please select an image").test('is-jpeg', 'Only JPEG images are allowed', val => !val || typeof val === 'string' || val.type === 'image/jpeg'),
         });
     
     return (
@@ -81,18 +115,7 @@ const ToyForm = (props) => {
                             component="span"
                         />
                     </FormGroup>
-                    <FormGroup>
-                        <label htmlFor="image">Image</label>
-                        <Field name="image" placeholder="Image"
-                            type="text"
-                            className="form-control" />
-                        <ErrorMessage
-                            name="image"
-                            className="d-block 
-                                invalid-feedback"
-                            component="span"
-                        />
-                    </FormGroup>
+                    <ImageUploadField />
                     <FormGroup>
                         
                        <label htmlFor="lastRotated">Last Rotated On</label>
