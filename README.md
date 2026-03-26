@@ -68,3 +68,98 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+frontend/build/* src/main/resources/static/
+(Adjust paths to match your project structure.)
+​
+
+Handle client-side routing (important for React Router):
+Add a WebMvcConfigurer to forward all non-API requests to index.html:
+​
+​
+
+java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/static/")
+                .resourceChain(true)
+                .addResolver(new PathResourceResolver() {
+                    @Override
+                    protected Resource getResource(String resourcePath,
+                                                  ResourceLocationResolver locationResolver)
+                            throws IOException {
+                        Resource requestedResource = locationResolver.resolve(resourcePath, null);
+                        return requestedResource.exists() || resourcePath.equals("/")
+                               ? requestedResource : new ClassPathResource("/static/index.html");
+                    }
+                });
+    }
+}
+Configure CORS (for development, if React runs separately):
+
+java
+@Configuration
+@EnableWebMvc
+public class CorsConfig implements WebMvcConfigurer {
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/api/**")
+                .allowedOrigins("http://localhost:3000")
+                .allowedMethods("GET", "POST", "PUT", "DELETE");
+    }
+}
+Remove this in production once React is embedded.
+​
+
+Run Spring Boot:
+
+text
+mvn spring-boot:run
+Your app serves at http://localhost:8080/ with React UI calling /api/* endpoints.
+
+Development workflow
+Dev: Run React (npm start) and Spring Boot separately, use CORS.
+
+Prod: Build React → copy to static/ → single mvn spring-boot:run JAR serves everything.
+​
+​
+
+Automate build (optional)
+Add a Maven plugin to auto-copy React build during mvn package:
+
+xml
+<plugin>
+    <groupId>com.github.eirslett</groupId>
+    <artifactId>frontend-maven-plugin</artifactId>
+    <version>1.12.1</version>
+    <configuration>
+        <workingDirectory>frontend</workingDirectory>
+        <installDirectory>target</installDirectory>
+    </configuration>
+    <executions>
+        <execution>
+            <id>install node and npm</id>
+            <goals><goal>install-node-and-npm</goal></goals>
+        </execution>
+        <execution>
+            <id>npm run build</id>
+            <goals><goal>npm</goal></goals>
+            <configuration>
+                <arguments>run build</arguments>
+            </configuration>
+        </execution>
+        <execution>
+            <id>copy build</id>
+            <goals><goal>exec</goal></goals>
+            <configuration>
+                <executable>cp</executable>
+                <arguments>-r frontend/build/* target/classes/static/</arguments>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>

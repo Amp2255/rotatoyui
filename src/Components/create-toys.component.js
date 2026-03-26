@@ -37,7 +37,7 @@ const CreateToy = () => {
     };
 
     return (
-        <ToyForm initialValues={initialValues} onSubmit={onSubmit} enableReinitialize>
+        <ToyForm initialValues={initialValues} onSubmit={onSubmit} enableReinitialize onCancel={() => navigate("/toy-list")}>
             Add new toy
         </ToyForm>
     );

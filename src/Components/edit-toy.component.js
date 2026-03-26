@@ -3,9 +3,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import ToyForm from "./ToyForm";
-import {
-    Button
-} from "react-bootstrap";
 const EditToy = () => {
   const { id } = useParams();             // ✅ Get toy ID from route
   const navigate = useNavigate();         // ✅ Navigation after update
@@ -63,22 +60,7 @@ const EditToy = () => {
       })
       .catch(() => alert("Something went wrong"));
   };
-  const rotateItem=()=>{
-  if (window.confirm("Are you sure you want to rotate this item?")) {
-            axios
-      .patch(`/item/rotate`,
-        formValues,                 // data goes second
-        { params: { id: id } })
-      .then((res) => {
-        if (res.status === 200) {
-          fetchToy();
-        } else {
-          return Promise.reject();
-        }
-      })
-      .catch(() => alert("Something went wrong"));
-        };
- }
+ 
   if (fetchError) return <div className="alert alert-danger">{fetchError}</div>;
   if (!formValues) return <div>Loading...</div>;
 
@@ -88,27 +70,12 @@ const EditToy = () => {
       initialValues={formValues}
       onSubmit={onSubmit}
       enableReinitialize
+      onCancel={() => navigate("/toy-list")}
     >
       Update Toy
-      
     </ToyForm>
-
-      <div style={{ marginTop: '20px' }}>
-        <Button variant="text" size="sm"
-    className="rotateButton"
-    onClick={rotateItem}
-
-  >
-    <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
-     strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="rotateToyIcon">
-  <polyline points="1 4 1 10 7 10"/>
-  <title>Rotate Toy</title>
-  <path d="M3.51 15a9 9 0 1 0 2.13-9"/>
-</svg>
-
-  </Button>
       </div>
-     </div>
+     
   );
 };
 

@@ -115,7 +115,7 @@ const [searchField, setSearchField] = useState("");
             />
           </Col>
 <Col md={4} >
-            <Button variant="primary" onClick={handleSearch}>
+            <Button variant="primary" size="sm" onClick={handleSearch}>
               Search
             </Button>
           </Col>
@@ -124,6 +124,7 @@ const [searchField, setSearchField] = useState("");
     style={{ backgroundColor: "#d17f71" }}
     title="Update all items as Stored?"
     variant="primary"
+    size="sm"
     onClick={handleStoreAll}
   >
     StoreAll
@@ -132,6 +133,7 @@ const [searchField, setSearchField] = useState("");
     style={{ backgroundColor: "#d17f71" }}
     title="Do you want to rotate items that are stored, and vice versa?"
     variant="primary"
+    size="sm"
     onClick={handleAllRotation}
   >
     RotateAll
@@ -148,7 +150,8 @@ const [searchField, setSearchField] = useState("");
             <th onClick={() => handleSort("notes")}>Notes</th>
             <th onClick={() => handleSort("status")}>Status</th>
             <th onClick={() => handleSort("lastRotated")}>LastRotated</th>
-            <th onClick={() => handleSort("image")}>Image</th>
+            {/* <th onClick={() => handleSort("image")}>Image</th> */}
+             <th nClick={() => handleSort("image")}>Image</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -156,13 +159,13 @@ const [searchField, setSearchField] = useState("");
       </Table>
 
       <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-        <Button variant="secondary" onClick={handlePrev} disabled={currentPage === 0}>
+        <Button variant="secondary" size="sm" onClick={handlePrev} disabled={currentPage === 0}>
           Previous
         </Button>
         <span style={{ padding: "0 10px", alignSelf: "center" }}>
           Page {currentPage} of {totalPages}
         </span>
-        <Button variant="secondary" onClick={handleNext} disabled={currentPage >= totalPages - 1}>
+        <Button variant="secondary" size="sm" onClick={handleNext} disabled={currentPage >= totalPages - 1 && currentPage!==0}>
           Next
         </Button>
       </div>

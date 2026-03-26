@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import * as Yup from "yup";
 import {
     Formik, Form,
@@ -9,14 +9,29 @@ import {
     FormGroup,
     Button
 } from "react-bootstrap";
+import { analyzeImage } from "../utils/analyzeImage";
 
 const ImageUploadField = () => {
     const { setFieldValue, values, errors, touched } = useFormikContext();
+    const [analyzing, setAnalyzing] = useState(false);
+    const [analyzeError, setAnalyzeError] = useState(null);
 
-    const handleChange = (e) => {
+    const handleChange = async (e) => {
         const file = e.currentTarget.files[0];
         if (!file) return;
         setFieldValue('image', file);
+        setAnalyzeError(null);
+        setAnalyzing(true);
+        try {
+            const suggestions = await analyzeImage(file);
+            if (suggestions.name) setFieldValue('name', suggestions.name);
+            if (suggestions.category) setFieldValue('category', suggestions.category);
+            if (suggestions.notes) setFieldValue('notes', suggestions.notes);
+        } catch (err) {
+            setAnalyzeError('Image analysis failed. Fill in details manually.');
+        } finally {
+            setAnalyzing(false);
+        }
     };
 
     return (
@@ -30,6 +45,12 @@ const ImageUploadField = () => {
                 className="form-control"
                 onChange={handleChange}
             />
+            {analyzing && (
+                <small className="text-muted d-block mt-1">Analyzing image...</small>
+            )}
+            {analyzeError && (
+                <small className="text-warning d-block mt-1">{analyzeError}</small>
+            )}
             {values.image && (
                 <img
                     src={values.image instanceof File ? URL.createObjectURL(values.image) : values.image}
@@ -44,7 +65,7 @@ const ImageUploadField = () => {
     );
 };
 
-const ToyForm = (props) => {
+const ToyForm = ({ onCancel, ...props }) => {
     const validationSchema =
         Yup.object().shape({
             name: Yup.string().required("Required"),
@@ -52,7 +73,7 @@ const ToyForm = (props) => {
             notes: Yup.string().required("Required"),
             status: Yup.string().required("Required"),
             lastRotated: Yup.string().required("Required"),
-            image: Yup.mixed().required("Please select an image").test('is-jpeg', 'Only JPEG images are allowed', val => !val || typeof val === 'string' || val.type === 'image/jpeg'),
+            image: Yup.mixed().test('is-jpeg', 'Only JPEG images are allowed', val => !val || typeof val === 'string' || val.type === 'image/jpeg'),
         });
     
     return (
@@ -60,6 +81,7 @@ const ToyForm = (props) => {
             <Formik {...props}
                 validationSchema={validationSchema}>
                 <Form>
+                    <ImageUploadField />
                     <FormGroup>
                         <label htmlFor="name">Name</label>
                         <Field name="name" type="text" placeholder="Name"
@@ -75,12 +97,14 @@ const ToyForm = (props) => {
   <label htmlFor="category">Category</label>
   <Field name="category" as="select" className="form-control">
     <option value="">Select category</option>
-    <option value="toy">Toy</option>
-    <option value="other">Other</option>
-    <option value="game">Game</option>
+    <option value="cars">Cars</option>
+    <option value="game">Electronic</option>
     <option value="puzzle">Puzzle</option>
     <option value="art">Art Item</option>
     <option value="book">Books</option>
+    <option value="boardgames">Board Games/Cards</option>
+    <option value="softtoys">Soft Toys</option>
+    <option value="other">Others</option>
   </Field>
   <ErrorMessage
     name="category"
@@ -115,9 +139,8 @@ const ToyForm = (props) => {
                             component="span"
                         />
                     </FormGroup>
-                    <ImageUploadField />
                     <FormGroup>
-                        
+
                        <label htmlFor="lastRotated">Last Rotated On</label>
   <Field
     name="lastRotated"
@@ -131,10 +154,16 @@ const ToyForm = (props) => {
                             component="span"
                         />
                     </FormGroup>
-                    <Button variant="danger" size="lg"
-                        block="block" type="submit">
-                        {props.children}
-                    </Button>
+                    <div className="d-flex gap-2">
+                        <Button variant="danger" size="sm" type="submit">
+                            {props.children}
+                        </Button>
+                        {onCancel && (
+                            <Button variant="secondary" size="sm" type="button" onClick={onCancel}>
+                                Cancel
+                            </Button>
+                        )}
+                    </div>
                     
                 </Form>
             </Formik>
