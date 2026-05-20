@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../Login.css";
 import logo from "../logo.png";
+import { useNavigate } from "react-router-dom";
 
 const AUTH0_DOMAIN = "dev-0bfqhw8lbr8ladtl.us.auth0.com";
 const CLIENT_ID = "XOL8Tt21teDGXqz0xkzMNpuT8CFn3oV5";
@@ -12,6 +13,7 @@ const AuthForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [mode, setMode] = useState("login");
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     if (mode === "register") {
@@ -46,7 +48,7 @@ const AuthForm = () => {
       });
 
       if (response.ok) {
-        window.location.href = "/home/toy-list";
+        navigate("/home/toy-list");
       } else {
         alert("Login failed");
       }

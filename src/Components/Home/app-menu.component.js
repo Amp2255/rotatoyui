@@ -6,8 +6,8 @@ const AppMenu = () => {
         <div>
             <h2>Menu</h2>
             <ul>
-                <li><Link to="/toy-list">Toys List</Link></li>
-                <li><Link to="/create-toy">Add Toy</Link></li>
+                <li><Link to="/home/toy-list">Toys List</Link></li>
+                <li><Link to="/home/create-toy">Add Toy</Link></li>
                 <li><Link to="/rotate-actions">Rotate Actions</Link></li>
             </ul>
         </div>

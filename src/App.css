@@ -37,6 +37,54 @@ html, body {
   color: #6a0dad !important; /* Purple hover */
 }
 
+.nav-soft-btn {
+  background-color: #ffb6b6;        /* Soft pastel pink */
+  color: #5a3e36 !important;        /* Warm brown text */
+  padding: 2px 8px; 
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  border: 1px solid #e39999;
+  transition: background-color 0.25s ease-in-out, transform 0.1s ease-in-out;
+
+  display: flex;                    /* Make it a flex container */
+  align-items: center;              /* Center vertically */
+  justify-content: center;          /* Center horizontally */
+}
+
+
+.nav-soft-btn:hover {
+   color: #6a0dad !important; /* Purple hover */       /* Slightly deeper yellow */
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+.logout-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  
+}
+
+.logout-icon-btn:hover {
+  transform: translateY(-2px);
+}
+
+.cancel-image-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cancel-image-btn:hover svg path[fill="#F44336"] {
+  fill: #d32f2f; /* darker red on hover */
+}
+
+
 /* ---------------- MAIN WRAPPER ---------------- */
 .wrapper {
   flex: 1;
@@ -152,3 +200,6 @@ html, body {
   top: -5px;
   right: 105%;
 }
+
+
+

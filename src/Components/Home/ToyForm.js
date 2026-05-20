@@ -9,12 +9,13 @@ import {
     FormGroup,
     Button
 } from "react-bootstrap";
-import { analyzeImage } from "../utils/analyzeImage";
+import { analyzeImage } from "../../utils/analyzeImage";
 
 const ImageUploadField = () => {
     const { setFieldValue, values, errors, touched } = useFormikContext();
     const [analyzing, setAnalyzing] = useState(false);
     const [analyzeError, setAnalyzeError] = useState(null);
+    const fileInputRef = React.useRef(null);
 
     const handleChange = async (e) => {
         const file = e.currentTarget.files[0];
@@ -44,6 +45,7 @@ const ImageUploadField = () => {
                 accept="image/jpeg"
                 className="form-control"
                 onChange={handleChange}
+                ref={fileInputRef}
             />
             {analyzing && (
                 <small className="text-muted d-block mt-1">Analyzing image...</small>
@@ -52,15 +54,51 @@ const ImageUploadField = () => {
                 <small className="text-warning d-block mt-1">{analyzeError}</small>
             )}
             {values.image && (
-                <img
-                    src={values.image instanceof File ? URL.createObjectURL(values.image) : values.image}
-                    alt="preview"
-                    style={{ marginTop: 8, maxHeight: 120 }}
-                />
-            )}
-            {touched.image && errors.image && (
-                <span className="d-block invalid-feedback">{errors.image}</span>
-            )}
+  <div style={{ marginTop: "10px" }}>
+    <img
+      src={
+        values.image instanceof File
+          ? URL.createObjectURL(values.image)
+          : values.image
+      }
+      alt="preview"
+      style={{ marginTop: 8, maxHeight: 120, display: "block" }}
+    />
+
+    <button
+      type="button"
+      className="cancel-image-btn"
+      onClick={() => {
+        setFieldValue("image", null);
+        setAnalyzeError(null);
+        if (fileInputRef.current) fileInputRef.current.value = ""; 
+      }}
+    >
+      <svg
+        width="22px"
+        height="22px"
+        viewBox="0 0 128 128"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fill="#B0BEC5"
+          d="M64,0C28.656,0,0,28.656,0,64s28.656,64,64,64s64-28.656,64-64S99.344,0,64,0z M64,120 
+            C33.125,120,8,94.875,8,64S33.125,8,64,8s56,25.125,56,56S94.875,120,64,120z"
+        />
+        <title>Delete</title>
+        <path
+          fill="#F44336"
+          d="M75.313,64l16.969-16.969c3.125-3.125,3.125-8.195,0-11.313c-3.117-3.125-8.188-3.125-11.313,0L64,52.688 
+            L47.031,35.719c-3.125-3.125-8.195-3.125-11.313,0c-3.125,3.117-3.125,8.188,0,11.313L52.688,64L35.719,80.969 
+            c-3.125,3.125-3.125,8.195,0,11.313c3.117,3.125,8.188,3.125,11.313,0L64,75.313l16.969,16.969c3.125,3.125,8.195,3.125,11.313,0 
+            c3.125-3.117,3.125-8.188,0-11.313L75.313,64z"
+        />
+      </svg>
+    </button>
+  </div>
+)}
+
+
         </FormGroup>
     );
 };
@@ -140,24 +178,6 @@ const ToyForm = ({ onCancel, ...props }) => {
                         />
                     </FormGroup>
                     <FormGroup>
-<<<<<<< HEAD:src/Components/Home/ToyForm.js
-                        <label htmlFor="image">Image</label>
-                        <Field name="image" placeholder="Image"
-                            type="text"
-                            value="yet to implement"
-                            className="form-control" />
-                        {/* <ErrorMessage
-                            name="image"
-                            className="d-block 
-                                invalid-feedback"
-                            component="span"
-                        /> */}
-                    </FormGroup>
-                    <FormGroup>
-                        
-=======
-
->>>>>>> bd70cc1b25a21c7d10414340e046d2d12edcd8c2:src/Components/ToyForm.js
                        <label htmlFor="lastRotated">Last Rotated On</label>
   <Field
     name="lastRotated"
@@ -171,24 +191,11 @@ const ToyForm = ({ onCancel, ...props }) => {
                             component="span"
                         />
                     </FormGroup>
-<<<<<<< HEAD:src/Components/Home/ToyForm.js
                     <br></br>
                     <Button variant="primary" size="sm"
                         block="block" type="submit">
                         {props.children}
                     </Button>
-=======
-                    <div className="d-flex gap-2">
-                        <Button variant="danger" size="sm" type="submit">
-                            {props.children}
-                        </Button>
-                        {onCancel && (
-                            <Button variant="secondary" size="sm" type="button" onClick={onCancel}>
-                                Cancel
-                            </Button>
-                        )}
-                    </div>
->>>>>>> bd70cc1b25a21c7d10414340e046d2d12edcd8c2:src/Components/ToyForm.js
                     
                 </Form>
             </Formik>

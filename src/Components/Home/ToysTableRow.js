@@ -56,7 +56,7 @@ const ToysTableRow =
                 <td>{status}</td>
                 <td>{lastRotated}</td>
                 <td>
-                    {image && <img src={image} alt={name} style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: 4 }} />}
+                    {image && <img src={image} style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: 4 }} />}
                 </td>
                 <td className="actionsColumn">
   <Button

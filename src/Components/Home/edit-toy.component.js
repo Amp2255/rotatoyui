@@ -53,7 +53,7 @@ const EditToy = () => {
       .then((res) => {
         if (res.status === 200) {
           alert("Toy details successfully updated");
-          navigate("/toy-list");  // ✅ Redirect using navigate
+          navigate("/home/toy-list");  // ✅ Redirect using navigate
         } else {
           return Promise.reject();
         }

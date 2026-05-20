@@ -114,13 +114,8 @@ const [searchField, setSearchField] = useState("");
               onChange={(e) => setSearchField(e.target.value)}
             />
           </Col>
-<<<<<<< HEAD:src/Components/Home/toys-list.component.js
           {/* <Col md={4} >
             <Button variant="primary" onClick={handleSearch}>
-=======
-<Col md={4} >
-            <Button variant="primary" size="sm" onClick={handleSearch}>
->>>>>>> bd70cc1b25a21c7d10414340e046d2d12edcd8c2:src/Components/toys-list.component.js
               Search
             </Button>
           </Col> */}
@@ -170,11 +165,7 @@ const [searchField, setSearchField] = useState("");
         <span style={{ padding: "0 10px", alignSelf: "center" }}>
           Page {currentPage} of {totalPages}
         </span>
-<<<<<<< HEAD:src/Components/Home/toys-list.component.js
         <Button variant="secondary" size="sm" onClick={handleNext} disabled={currentPage === totalPages}>
-=======
-        <Button variant="secondary" size="sm" onClick={handleNext} disabled={currentPage >= totalPages - 1 && currentPage!==0}>
->>>>>>> bd70cc1b25a21c7d10414340e046d2d12edcd8c2:src/Components/toys-list.component.js
           Next
         </Button>
       </div>

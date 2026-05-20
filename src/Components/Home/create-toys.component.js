@@ -28,7 +28,7 @@ const CreateToy = () => {
             .then(res => {
                 if (res.status === 200) {
                     alert('New toy successfully added');
-                    navigate("/toy-list");
+                    navigate("/home/toy-list");
                 } else {
                     Promise.reject();
                 }
@@ -37,7 +37,7 @@ const CreateToy = () => {
     };
 
     return (
-        <ToyForm initialValues={initialValues} onSubmit={onSubmit} enableReinitialize onCancel={() => navigate("/toy-list")}>
+        <ToyForm initialValues={initialValues} onSubmit={onSubmit} enableReinitialize onCancel={() => navigate("/home/toy-list")}>
             Add new toy
         </ToyForm>
     );
