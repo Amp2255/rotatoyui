@@ -1,0 +1,41 @@
+.homeSmallLogin input {
+  width: 80%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 14px; /* More rounded */
+  border: 2px solid #add8e6; /* Optional: matches your theme */
+}
+
+.homeSmallLogin button {
+  padding: 10px 20px;
+  background-color: brown;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 14px; /* More rounded */
+}
+
+.homeSmallLogin button:hover {
+  background-color: darkred;
+}
+
+.homeSmallLogin {
+  padding: 30px;
+  border-radius: 14px; /* Match the rounded style */
+}
+
+.homeMain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 80px;
+  width: 100%;
+}
+.homeSmallLogin h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: darkred;
+  margin-bottom: 20px;
+  text-align: center;
+  letter-spacing: 1px;
+}

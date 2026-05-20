@@ -1,0 +1,154 @@
+/* Reset + Base Layout */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  background-color: #fff8f0; /* Cream */
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff8f0;
+}
+
+/* ---------------- NAVBAR ---------------- */
+.navbar {
+  background-color: #ffb6b6 !important; /* Soft pink */
+  border-bottom: 3px solid #f7a8a8;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+}
+
+.navbar-brand,
+.nav-link {
+  color: #502c48 !important; /* Deep plum */
+  font-weight: bold;
+}
+
+.nav-link:hover {
+  color: #6a0dad !important; /* Purple hover */
+}
+
+/* ---------------- MAIN WRAPPER ---------------- */
+.wrapper {
+  flex: 1;
+  padding: 20px 0;
+  background-color: #fefbd8; /* Soft yellow */
+}
+
+/* ---------------- FOOTER ---------------- */
+.nav-link-footer {
+  background-color: #f8efdf;
+  text-align: center;
+  padding: 12px 20px;
+  font-size: 1rem;
+  color: #333;
+  border-top: 2px solid #f0b000;
+  margin-top: auto;
+}
+
+/* Responsive footer */
+@media (max-width: 768px) {
+  .nav-link-footer {
+    font-size: 0.9rem;
+    padding: 10px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-link-footer {
+    font-size: 0.8rem;
+    padding: 8px 10px;
+  }
+}
+
+/* ---------------- FORM CONTROLS ---------------- */
+.form-control {
+  border-radius: 10px;
+  border: 2px solid #add8e6; /* Light blue */
+  background-color: #fffaf5;
+  padding: 10px;
+}
+
+
+
+/* ---------------- TABLES ---------------- */
+.table {
+  background-color: #fffaf0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.table th {
+  background-color: #fcd5ce; /* Peach pink */
+  color: #4b0082; /* Indigo */
+  font-weight: bold;
+  text-align: center;
+}
+
+.table td {
+  background-color: #fff;
+  color: #444;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #ffefd5; /* Light peach */
+}
+
+/* ---------------- ALERTS (Optional) ---------------- */
+/* Uncomment if needed
+.alert-success {
+  background-color: #c8e6c9;
+  border-color: #66bb6a;
+  color: #2e7d32;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+.alert-danger {
+  background-color: #ffcdd2;
+  border-color: #e57373;
+  color: #c62828;
+  font-weight: bold;
+  border-radius: 10px;
+}
+*/
+
+/* ---------------- ICON ROTATION + TOOLTIP ---------------- */
+.rotateButton {
+  color: #510f80;
+}
+
+.rotateToyIcon:hover {
+  transform: rotate(90deg);
+  transition: transform 0.3s ease-in-out;
+}
+
+.rotateToyIcon:hover .tooltiptext {
+  visibility: visible;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  right: 105%;
+}
