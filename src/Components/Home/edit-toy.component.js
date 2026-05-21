@@ -22,6 +22,7 @@ const EditToy = () => {
         notes: item.notes || '',
         lastRotated: item.lastRotated || '',
         image: item.image || '',
+        imageName:item.imageName || '',
       });
     })
     .catch((err) => {

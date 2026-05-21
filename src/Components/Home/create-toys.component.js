@@ -22,6 +22,7 @@ const CreateToy = () => {
         formData.append('item', new Blob([JSON.stringify(rest)], { type: 'application/json' }));
         if (image instanceof File) {
             formData.append('image', image);
+            formData.append("imageName", initialValues.imageName);
         }
 
         axios.post(`/item`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
