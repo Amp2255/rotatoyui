@@ -31,8 +31,8 @@ const ToysTableRow =
         }
       })
       .catch(() => alert("Something went wrong"));
-        };
- }
+        }
+ };
  const deleteItem = () => {
   if (window.confirm("Are you sure you want to delete this item?")) {
             axios
@@ -46,8 +46,8 @@ const ToysTableRow =
                 .catch(
                     (err) =>
                         alert("Something went wrong"));
-        };
-}
+        }
+};
         return (
             <tr>
                 <td>{name}</td>

@@ -11,26 +11,24 @@ const EditToy = () => {
   const [fetchError, setFetchError] = useState(null);
 
   const fetchToy = () => {
-    axios
-      .get(`/item`, { params: { id: id } })
-      .then((res) => {
-        console.log('fetch response:', res.data);
-        const item = res.data.data?.content?.[0] ?? res.data.data;
-        const { name, category, status, notes, lastRotated, image } = item;
-        setFormValues({
-          name: name || '',
-          category: category || '',
-          status: status || '',
-          notes: notes || '',
-          lastRotated: lastRotated || '',
-          image: image || '',
-        });
-      })
-      .catch((err) => {
-        console.error(err);
-        setFetchError('Failed to load toy data. ' + (err.response?.data?.message || err.message));
+  axios
+    .get(`/item/${id}`)
+    .then((res) => {
+      const item = res.data.data;
+      setFormValues({
+        name: item.name || '',
+        category: item.category || '',
+        status: item.status || '',
+        notes: item.notes || '',
+        lastRotated: item.lastRotated || '',
+        image: item.image || '',
       });
-  };
+    })
+    .catch((err) => {
+      setFetchError("Failed to load toy data.");
+    });
+};
+
 
   useEffect(() => {
     fetchToy();
@@ -39,27 +37,32 @@ const EditToy = () => {
 
   // Form submission handler
   const onSubmit = (toyObject) => {
-    const { image, ...rest } = toyObject;
-    const formData = new FormData();
-    formData.append('item', new Blob([JSON.stringify(rest)], { type: 'application/json' }));
-    if (image instanceof File) {
-      formData.append('image', image);
-    }
+  const { image, ...rest } = toyObject;
 
-    axios
-      .patch(`/item`,
-        formData,
-        { params: { id: id }, headers: { 'Content-Type': 'multipart/form-data' } })
-      .then((res) => {
-        if (res.status === 200) {
-          alert("Toy details successfully updated");
-          navigate("/home/toy-list");  // ✅ Redirect using navigate
-        } else {
-          return Promise.reject();
-        }
-      })
-      .catch(() => alert("Something went wrong"));
-  };
+  const formData = new FormData();
+  formData.append(
+    "item",
+    new Blob([JSON.stringify(rest)], { type: "application/json" })
+  );
+
+  if (image instanceof File) {
+    formData.append("image", image);
+  } else if (image === null) {
+    formData.append("image", "");
+  }
+
+  axios
+    .patch(`/item`, formData, {
+      params: { id },
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+    .then((res) => {
+      alert("Toy details successfully updated");
+      navigate("/home/toy-list");
+    })
+    .catch(() => alert("Something went wrong"));
+};
+
  
   if (fetchError) return <div className="alert alert-danger">{fetchError}</div>;
   if (!formValues) return <div>Loading...</div>;
@@ -70,7 +73,7 @@ const EditToy = () => {
       initialValues={formValues}
       onSubmit={onSubmit}
       enableReinitialize
-      onCancel={() => navigate("/toy-list")}
+      onCancel={() => navigate("home/toy-list")}
     >
       Update Toy
     </ToyForm>

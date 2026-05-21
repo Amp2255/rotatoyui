@@ -22,8 +22,8 @@ html, body {
 
 /* ---------------- NAVBAR ---------------- */
 .navbar {
-  background-color: #ffb6b6 !important; /* Soft pink */
-  border-bottom: 3px solid #f7a8a8;
+  background-color: #ffdfb6 !important; /* Soft pink */
+  border-bottom: 3px solid #f7e2a8;
   box-shadow: 0 4px 6px rgba(0,0,0,0.08);
 }
 
@@ -38,13 +38,13 @@ html, body {
 }
 
 .nav-soft-btn {
-  background-color: #ffb6b6;        /* Soft pastel pink */
-  color: #5a3e36 !important;        /* Warm brown text */
+  background-color: #ffdfb6;        /* Soft pastel pink */
+  color: #5a5036 !important;        /* Warm brown text */
   padding: 2px 8px; 
   border-radius: 6px;
   font-weight: bold;
   text-decoration: none;
-  border: 1px solid #e39999;
+  border: 1px solid #5a5036;
   transition: background-color 0.25s ease-in-out, transform 0.1s ease-in-out;
 
   display: flex;                    /* Make it a flex container */

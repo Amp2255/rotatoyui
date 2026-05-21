@@ -34,30 +34,30 @@ const RotateActions = () => {
     }
   };
 
-  return (
-    <div className="table-wrapper">
-      <Row>
-        <Col className="d-flex gap-2">
-          <Button
-            style={{ backgroundColor: "#d17f71" }}
-            title="Update all items as Stored?"
-            variant="primary"
-            onClick={handleStoreAll}
-          >
-            StoreAll
-          </Button>
-          <Button
-            style={{ backgroundColor: "#d17f71" }}
-            title="Do you want to rotate items that are stored, and vice versa?"
-            variant="primary"
-            onClick={handleAllRotation}
-          >
-            RotateAll
-          </Button>
-        </Col>
-      </Row>
-    </div>
-  );
+  // return (
+  //   <div className="table-wrapper">
+  //     <Row>
+  //       <Col className="d-flex gap-2">
+  //         <Button
+  //           style={{ backgroundColor: "#d17f71" }}
+  //           title="Update all items as Stored?"
+  //           variant="primary"
+  //           onClick={handleStoreAll}
+  //         >
+  //           StoreAll
+  //         </Button>
+  //         <Button
+  //           style={{ backgroundColor: "#d17f71" }}
+  //           title="Do you want to rotate items that are stored, and vice versa?"
+  //           variant="primary"
+  //           onClick={handleAllRotation}
+  //         >
+  //           RotateAll
+  //         </Button>
+  //       </Col>
+  //     </Row>
+  //   </div>
+  // );
 };
 
 export default RotateActions;

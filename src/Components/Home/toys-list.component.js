@@ -121,7 +121,7 @@ const [searchField, setSearchField] = useState("");
           </Col> */}
           <Col md="auto" className="ms-auto d-flex gap-2">
   <Button
-    style={{ backgroundColor: "#d17f71" }}
+    style={{ backgroundColor: "#d1a971", color:"#4d442e" }}
     title="Update all items as Stored?"
     variant="primary"
     size="sm"
@@ -130,7 +130,7 @@ const [searchField, setSearchField] = useState("");
     StoreAll
   </Button>
   <Button
-    style={{ backgroundColor: "#d17f71" }}
+    style={{ backgroundColor: "#d1a971",color:"#4d442e" }}
     title="Do you want to rotate items that are stored, and vice versa?"
     variant="primary"
     size="sm"
@@ -150,8 +150,7 @@ const [searchField, setSearchField] = useState("");
             <th onClick={() => handleSort("notes")}>Notes</th>
             <th onClick={() => handleSort("status")}>Status</th>
             <th onClick={() => handleSort("lastRotated")}>LastRotated</th>
-            {/* <th onClick={() => handleSort("image")}>Image</th> */}
-             <th nClick={() => handleSort("image")}>Image</th>
+            <th onClick={() => handleSort("image")}>Image</th>
             <th>Actions</th>
           </tr>
         </thead>
