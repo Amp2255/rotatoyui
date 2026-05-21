@@ -1,85 +1,91 @@
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import ToyForm from "./ToyForm";
+
 const EditToy = () => {
-  const { id } = useParams();             // ✅ Get toy ID from route
-  const navigate = useNavigate();         // ✅ Navigation after update
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const [formValues, setFormValues] = useState(null);
   const [fetchError, setFetchError] = useState(null);
 
-  const fetchToy = () => {
-  axios
-    .get(`/item/${id}`)
-    .then((res) => {
-      const item = res.data.data;
-      setFormValues({
-        name: item.name || '',
-        category: item.category || '',
-        status: item.status || '',
-        notes: item.notes || '',
-        lastRotated: item.lastRotated || '',
-        image: item.image || '',
-        imageName:item.imageName || '',
-      });
-    })
-    .catch((err) => {
-      setFetchError("Failed to load toy data.");
-    });
-};
-
-
   useEffect(() => {
-    fetchToy();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    axios
+      .get(`/item/${id}`)
+      .then((res) => {
+        const item = res.data.data;
+
+        setFormValues({
+          name: item.name || "",
+          category: item.category || "",
+          status: item.status || "",
+          notes: item.notes || "",
+            lastRotated: item.lastRotated
+    ? item.lastRotated.split("T")[0]
+    : "",
+          image: null,                     // new upload
+          existingImage: item.image || "", // base64 from backend
+          imageName: item.imageName || "", // stored filename
+        });
+      })
+      .catch(() => setFetchError("Failed to load toy data."));
   }, [id]);
 
-  // Form submission handler
+  // -----------------------------
+  // SUBMIT HANDLER
+  // -----------------------------
   const onSubmit = (toyObject) => {
-  const { image, ...rest } = toyObject;
+    console.log("SUBMIT DATA", toyObject);
 
-  const formData = new FormData();
-  formData.append(
-    "item",
-    new Blob([JSON.stringify(rest)], { type: "application/json" })
-  );
+    const { image, imageName, existingImage, ...rest } = toyObject;
 
-  if (image instanceof File) {
-    formData.append("image", image);
-  } else if (image === null) {
-    formData.append("image", "");
-  }
+    const formData = new FormData();
+    formData.append(
+      "item",
+      new Blob([JSON.stringify(rest)], { type: "application/json" })
+    );
 
-  axios
-    .patch(`/item`, formData, {
-      params: { id },
-      headers: { "Content-Type": "multipart/form-data" },
-    })
-    .then((res) => {
-      alert("Toy details successfully updated");
-      navigate("/home/toy-list");
-    })
-    .catch(() => alert("Something went wrong"));
-};
+    if (image instanceof File) {
+      // user uploaded a new image
+      formData.append("image", image);
+      formData.append("imageName", image.name);
+    } else {
+      // user kept or deleted existing image
+      formData.append("imageName", imageName);
+      formData.append("existingImage", existingImage);
+    }
 
- 
-  if (fetchError) return <div className="alert alert-danger">{fetchError}</div>;
-  if (!formValues) return <div>Loading...</div>;
+    axios
+      .patch(`/item`, formData, {
+        params: { id },
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then(() => {
+        alert("Toy details successfully updated");
+        navigate("/home/toy-list");
+      })
+      .catch(() => alert("Something went wrong"));
+  };
+
+  // -----------------------------
+  // RENDER
+  // -----------------------------
+  if (fetchError)
+    return <div className="alert alert-danger">{fetchError}</div>;
+
+  if (!formValues)
+    return <div>Loading...</div>; // Formik will NOT render until ready
 
   return (
-   <div>
-       <ToyForm
-      initialValues={formValues}
-      onSubmit={onSubmit}
-      enableReinitialize
-      onCancel={() => navigate("home/toy-list")}
-    >
-      Update Toy
-    </ToyForm>
-      </div>
-     
+    <ToyForm
+  initialValues={formValues}
+  onSubmit={onSubmit}
+  enableReinitialize
+  onCancel={() => navigate("/home/toy-list")}
+  buttonLabel="Update Toy"
+/>
+
   );
 };
 

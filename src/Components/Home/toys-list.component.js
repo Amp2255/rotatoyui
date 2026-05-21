@@ -157,17 +157,31 @@ const [searchField, setSearchField] = useState("");
         <tbody>{DataTable()}</tbody>
       </Table>
 
-      <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+      {/* <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
         <Button variant="secondary" size="sm" onClick={handlePrev} disabled={currentPage === 0}>
           Previous
         </Button>
         <span style={{ padding: "0 10px", alignSelf: "center" }}>
-          Page {currentPage} of {totalPages}
+          Page {currentPage+1} of {totalPages}
         </span>
-        <Button variant="secondary" size="sm" onClick={handleNext} disabled={currentPage === totalPages}>
+        <Button variant="secondary" size="sm" onClick={handleNext} disabled={currentPage === totalPages-1}>
           Next
         </Button>
-      </div>
+      </div> */}
+
+      <span style={{ padding: "0 10px", alignSelf: "center" }}>
+  Page {currentPage + 1} of {totalPages}
+</span>
+
+<Button
+  variant="secondary"
+  size="sm"
+  onClick={handleNext}
+  disabled={currentPage === totalPages - 1}
+>
+  Next
+</Button>
+
     </div>
   );
 };

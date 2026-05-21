@@ -13,7 +13,8 @@ const CreateToy = () => {
         status: '',
         notes: '',
         lastRotated: '',
-        image: '',
+        image: null,
+        imageName:'',
     };
 
     const onSubmit = toyObject => {
@@ -22,7 +23,7 @@ const CreateToy = () => {
         formData.append('item', new Blob([JSON.stringify(rest)], { type: 'application/json' }));
         if (image instanceof File) {
             formData.append('image', image);
-            formData.append("imageName", initialValues.imageName);
+            formData.append("imageName", image.name);
         }
 
         axios.post(`/item`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
@@ -38,9 +39,13 @@ const CreateToy = () => {
     };
 
     return (
-        <ToyForm initialValues={initialValues} onSubmit={onSubmit} enableReinitialize onCancel={() => navigate("/home/toy-list")}>
-            Add new toy
-        </ToyForm>
+         <ToyForm
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        enableReinitialize
+        onCancel={() => navigate("/home/toy-list")}
+        buttonLabel="Create Toy"
+    />
     );
 };
 
